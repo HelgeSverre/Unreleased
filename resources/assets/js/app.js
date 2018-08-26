@@ -19,10 +19,11 @@ Vue.component('v-select', vSelect);
  */
 
 Vue.component('artist-selector', require('./components/ArtistSelector'));
+Vue.component('genre-selector', require('./components/GenreSelector'));
+Vue.component('search-field', require('./components/SearchField'));
+Vue.component('artist-index', require('./components/ArtistIndex'));
+Vue.component('genre-index', require('./components/GenreIndex'));
 
 const app = new Vue({
     el: '#app'
 });
-
-
-

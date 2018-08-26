@@ -14,6 +14,7 @@
                             <th>#</th>
                             <th>Artist</th>
                             <th>Title</th>
+                            <th>Edit</th>
                             <th>Genre</th>
                             <th>Added</th>
                             <th>Source</th>
@@ -24,9 +25,17 @@
                         @forelse($tracks as $track)
                             <tr>
                                 <td>{{ $track->id }}</td>
-                                <td>{{ $track->artist->stage_name }}</td>
+                                <td>
+                                  <a href="{{route('artist.show', $track->artist_id)}}">
+                                    {{ $track->artist->stage_name }}
+                                  </a>
+                                </td>
                                 <td>{{ $track->title }}</td>
-                                <td>{{ $track->genre->name }}</td>
+                                <td> <a href="{{route('track.edit', $track->id)}}">Edit</a> </td>
+                                <td>
+                                  <a href="{{route('genre.show', $track->genre_id)}}">
+                                    {{ $track->genre->name }}</td>
+                                  </a>
                                 <td>{{ $track->created_at->diffForHumans() }}</td>
                                 <td>
                                     <a href="{{ $track->source_url }}" rel="nofollow" target="_blank">
@@ -42,6 +51,7 @@
                                 <td colspan="7">No tracks added yet</td>
                             </tr>
                         @endforelse
+
                         </tbody>
                     </table>
                 </div>

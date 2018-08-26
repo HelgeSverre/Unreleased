@@ -9,6 +9,9 @@ $factory->define(\App\Track::class, function (Faker $faker) {
         },
         "artist_id" => function () {
             return factory(\App\Artist ::class)->create()->id;
-        }
+        },
+        'title' => 'New track',
+        'source_url' => 'https://example.com',
+        'source_description' => 'Description of Source'
     ];
 });

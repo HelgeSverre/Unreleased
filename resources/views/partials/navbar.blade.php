@@ -13,6 +13,10 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item mr-2">
+                  <search-field></search-field>
+
+                </li>
+                <li class="nav-item mr-2">
                     <a class="nav-link" href="{{ route('track.create') }}">
                         <i class="fas fa-fw fa-plus"></i> {{ __('Add track') }}
                     </a>
@@ -24,9 +28,7 @@
                     </a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="{{ route('genre.index') }}">
-                        <i class="fas fa-fw fa-music"></i> {{ __('Genres') }}
-                    </a>
+                    <genre-index></genre-index>
                 </li>
                 @guest
                     <li class="nav-item ml-4 border-left pl-4 border-white">
@@ -37,7 +39,7 @@
                     </li>
                 @else
 
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown ml-4 border-left pl-4 border-white">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>

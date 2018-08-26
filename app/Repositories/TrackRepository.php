@@ -4,13 +4,13 @@
 namespace App\Repositories;
 
 
-use App\Genre;
+use App\Track;
 
-class GenreRepository
+class TrackRepository
 {
 
     public function getAll()
     {
-        return Genre::all();
+        return Track::all();
     }
 }

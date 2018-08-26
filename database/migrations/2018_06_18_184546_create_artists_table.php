@@ -17,7 +17,10 @@ class CreateArtistsTable extends Migration
             $table->increments('id');
             $table->string("stage_name");
             $table->string("real_name")->nullable();
-            $table->string("bio")->nullable();
+            $table->text("bio")->nullable();
+            $table->text("discogs_bio")->nullable();
+            $table->integer("discogs_id")->nullable();
+            $table->string("image")->nullable();
             $table->timestamps();
         });
     }

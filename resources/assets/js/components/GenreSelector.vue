@@ -1,7 +1,7 @@
 <template>
-    <div class="artist-selector">
+    <div class="genre-selector">
 
-        <input type="hidden" name="artist_id" :value="selectedArtist.id" v-if="selectedArtist">
+        <input type="hidden" name="genre_id" :value="selectedGenre.id" v-if="selectedGenre">
 
         <button type="button" ref="input" class="btn btn-block text-left" @click="toggleSearch">
             {{ buttonText }}
@@ -10,20 +10,19 @@
         <div class="w-100 list-group-dropdown shadow-sm" ref="dropdown" v-show="isOpen">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <input type="text" class="form-control" placeholder="Search for artist..." v-model="search">
+                    <input type="text" class="form-control" placeholder="Search for genre..." v-model="search">
                 </li>
                 <li class="list-group-item text-center" v-show="loading">
                     <i class="fas fa-fw fa-cog fa-spin"></i> Searching
                 </li>
 
                 <li class="list-group-item d-flex align-items-center justify-content-between pointer"
-                    @click="selectArtist(artist)" v-for="artist in artists" v-if="artists.length">
-                    <strong>{{ artist.stage_name }}</strong>
-                    <small>{{ artist.real_name }}</small>
+                    @click="selectGenre(genre)" v-for="genre in genres" v-if="genres.length">
+                    <strong>{{ genre.name }}</strong>
                 </li>
                 <li class="list-group-item d-flex align-items-center justify-content-between pointer"
-                    @click="createNewArtist" v-if="search.length > minLength">
-                    <span>Create new artist "<strong>{{ search }}</strong>"..</span>
+                    @click="createNewGenre" v-if="search.length > minLength">
+                    <span>Create new genre "<strong>{{ search }}</strong>"..</span>
                     <i class="fas fa-fw fa-plus-circle"></i>
                 </li>
             </ul>
@@ -31,7 +30,7 @@
     </div>
 </template>
 <style>
-    .artist-selector {
+    .genre-selector {
         position: relative;
     }
 
@@ -47,11 +46,11 @@
                 minLength: 3,
                 loading: false,
                 search: "",
-                selectedArtist: null,
-                artists: [],
+                selectedGenre: null,
+                genres: [],
             }
         },
-          props: ['preselected_artist'],
+        props: ['preselected_genre'],
         mounted() {
             new Popper(this.$refs.input, this.$refs.dropdown, {
                 placement: 'bottom',
@@ -62,10 +61,11 @@
                     }
                 }
             });
-            if(!(this.preselected_artist === undefined)) {
-              this.selectedArtist = JSON.parse(this.preselected_artist)
+            if(!(this.preselected_genre === undefined)) {
+              this.selectedGenre = JSON.parse(this.preselected_genre)
             }
         },
+
         methods: {
             toggleSearch() {
                 this.isOpen = !this.isOpen;
@@ -76,48 +76,48 @@
             closeSearch() {
                 this.isOpen = false;
             },
-            selectArtist(artist) {
-                this.selectedArtist = artist;
+            selectGenre(genre) {
+                this.selectedGenre = genre;
                 this.search = "";
                 this.closeSearch();
             },
-            createNewArtist() {
+            createNewGenre() {
                 this.loading = true;
                 axios
-                    .post("/api/artists", {
-                        stage_name: this.search
+                    .post("/api/genres", {
+                        name: this.search
                     })
                     .then(response => {
-                        this.selectArtist(response.data);
+                        this.selectGenre(response.data);
                         this.loading = false;
                     });
             },
-            searchForArtists: _.debounce(function () {
+            searchForGenres: _.debounce(function () {
                 this.loading = true;
                 axios
-                    .get("/api/artists", {
+                    .get("/api/genres", {
                         params: {
                             q: this.search
                         }
                     })
                     .then(response => {
-                        this.artists = response.data;
+                        this.genres = response.data;
                         this.loading = false;
                     });
             }, 250)
         },
         watch: {
             search(newValue, oldValue) {
-                this.searchForArtists();
+                this.searchForGenres();
             }
         },
         computed: {
             buttonText() {
-                if (this.selectedArtist) {
-                    return this.selectedArtist.stage_name;
+                if (this.selectedGenre) {
+                    return this.selectedGenre.name;
                 }
 
-                return "Select artist";
+                return "Select genre";
             }
         }
     }
